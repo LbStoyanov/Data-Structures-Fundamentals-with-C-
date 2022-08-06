@@ -7,15 +7,18 @@
     public class List<T> : IAbstractList<T>
     {
         private const int DEFAULT_CAPACITY = 4; 
-        private T[] _items;
+        private T[] items;
+        private int index = 0;
 
         public List()
-            : this(DEFAULT_CAPACITY) {
+            : this(DEFAULT_CAPACITY) 
+        {
+            this.items = new T[DEFAULT_CAPACITY];
         }
 
         public List(int capacity)
         {
-            throw new NotImplementedException();
+            this.items = new T[capacity];
         }
 
         public T this[int index]
@@ -30,11 +33,21 @@
             }
         }
 
-        public int Count { get; private set; }
+        public int Count => this.items.Length;
 
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            if (index == items.Length)
+            {
+                var newArr = new T[items.Length * 2];
+
+                for (int i = 0; i < items.Length; i++)
+                {
+                    newArr[i] = items[i];
+                }
+
+                this.items = newArr;
+            }
         }
 
         public bool Contains(T item)
