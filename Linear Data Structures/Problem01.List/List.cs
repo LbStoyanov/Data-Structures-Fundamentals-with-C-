@@ -25,11 +25,13 @@
         {
             get
             {
-                throw new NotImplementedException();
+                return items[index];
             }
             set
             {
-                throw new NotImplementedException();
+                items[index] = value;
+
+                return; 
             }
         }
 
