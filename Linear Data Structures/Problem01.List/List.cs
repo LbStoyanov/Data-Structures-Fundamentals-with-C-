@@ -8,7 +8,7 @@
     {
         private const int DEFAULT_CAPACITY = 4; 
         private T[] items;
-        private int index = 0;
+        private int arrIndex = 0;
 
         public List()
             : this(DEFAULT_CAPACITY) 
@@ -23,13 +23,14 @@
 
         public T this[int index]
         {
-            get
-            {
-                return items[index];
-            }
+            get => this.items[index];
             set
             {
-                items[index] = value;
+                if (this.arrIndex > this.items.Length)
+                {
+                    throw new IndexOutOfRangeException("Index was outside of the range!");
+                }
+                this.items[index] = value;
 
                 return; 
             }
@@ -39,22 +40,33 @@
 
         public void Add(T item)
         {
-            if (index == items.Length)
+            if (this.arrIndex == this.items.Length)
             {
-                var newArr = new T[items.Length * 2];
+                var newArr = new T[this.items.Length * 2];
 
-                for (int i = 0; i < items.Length; i++)
+                for (int i = 0; i < this.items.Length; i++)
                 {
-                    newArr[i] = items[i];
+                    newArr[i] = this.items[i];
                 }
 
                 this.items = newArr;
             }
+
+            this.items[arrIndex] = item;
+            this.arrIndex++;
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            foreach (var t in this.items)
+            {
+                if (t == item)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 
@@ -75,7 +87,21 @@
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index > this.items.Length)
+            {
+                throw new IndexOutOfRangeException("Index out of range!");
+            }
+
+            T[] newArray = new T[this.items.Length];
+
+            for (int i = 0; i < this.items.Length; i++)
+            {
+                if (i == index)
+                {
+                    co
+                }
+                newArray[i] = this.items[i];
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
