@@ -1,5 +1,6 @@
 ﻿using System.IO.Compression;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Problem01.List
 {
@@ -11,12 +12,14 @@ namespace Problem01.List
     {
         private const int DEFAULT_CAPACITY = 4; 
         private T[] items;
-        private int arrIndex = 0;
+        private int elements;
+
 
         public List()
             : this(DEFAULT_CAPACITY) 
         {
             this.items = new T[DEFAULT_CAPACITY];
+            this.elements = 0;
         }
 
         public List(int capacity)
@@ -26,41 +29,32 @@ namespace Problem01.List
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
             this.items = new T[capacity];
+            this.elements = 0;
         }
 
         public T this[int index]
         {
-            get => this.items[index];
+            get
+            {
+                this.ValidateIndex(index);
+                return this.items[index];
+            }
             set
             {
-                if (this.arrIndex > this.items.Length)
-                {
-                    throw new IndexOutOfRangeException("Index was outside of the range!");
-                }
+                this.ValidateIndex(index);
                 this.items[index] = value;
-
-                return; 
             }
         }
 
-        public int Count => this.items.Length;
+        public int Count => elements;
 
         public void Add(T item)
         {
-            if (this.arrIndex == this.items.Length)
-            {
-                var newArr = new T[this.items.Length * 2];
+            
+            this.GrowIfNecessary();
+            this.items[this.elements++] = item;
+           
 
-                for (int i = 0; i < this.items.Length; i++)
-                {
-                    newArr[i] = this.items[i];
-                }
-
-                this.items = newArr;
-            }
-
-            this.items[arrIndex] = item;
-            this.arrIndex++;
         }
 
         public bool Contains(T item)
@@ -81,7 +75,7 @@ namespace Problem01.List
         {
             var elementIndex = -1;
 
-            for (int i = 0; i < this.items.Length; i++)
+            for (int i = 0; i < this.Count; i++)
             {
                 if (this.items[i].Equals(item))
                 {
@@ -95,7 +89,19 @@ namespace Problem01.List
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+          this.ValidateIndex(index);
+          this.GrowIfNecessary();
+
+          for (int i = this.Count; i > index; i--)
+          {
+              this.items[i] = this.items[i - 1];
+
+          }
+
+          this.items[index] = item;
+          this.elements++;
+
+
         }
 
         public bool Remove(T item)
@@ -116,6 +122,7 @@ namespace Problem01.List
             if (isPresented)
             {
                 this.items = this.items.Where((source, index) => index != indexToRemove).ToArray();
+                return true;
             }
 
             return false;
@@ -123,33 +130,53 @@ namespace Problem01.List
 
         public void RemoveAt(int index)
         {
-            if (index > this.items.Length - 1)
-            {
-                throw new IndexOutOfRangeException("Index out of range!");
-            }
+           this.ValidateIndex(index);
 
-            T[] newArray = new T[this.items.Length];
+           for (int i = 0; i < this.Count - 1; i++)
+           {
+                this.items[i] = this.items[i + 1];
+           }
 
-            var newArrIndex = 0;
+           this.items[this.Count - 1] = default;
+           this.elements--;
 
-            for (int i = 0; i < this.items.Length; i++)
-            {
-                if (i == index)
-                {
-                    continue;
-                    ;
-                }
-                newArray[newArrIndex] = this.items[i];
-                newArrIndex++;
-            }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < this.Count; i++)
+            {
+                yield return this.items[i];
+            }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() 
-            => throw new NotImplementedException();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        private void ValidateIndex(int index)
+        {
+            if (index < 0 || index >= this.Count)
+            {
+                throw new IndexOutOfRangeException(nameof(index));
+            }
+        }
+
+        private T[] Grow()
+        {
+            var newArray = new T[this.Count * 2];
+            Array.Copy(this.items,newArray,this.items.Length);
+            return newArray;
+        }
+
+        private void GrowIfNecessary()
+        {
+            if (this.Count == this.items.Length)
+            {
+                this.items = this.Grow();
+            }
+        }
+
     }
 }
