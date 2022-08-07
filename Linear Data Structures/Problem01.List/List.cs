@@ -1,4 +1,7 @@
-﻿namespace Problem01.List
+﻿using System.IO.Compression;
+using System.Linq;
+
+namespace Problem01.List
 {
     using System;
     using System.Collections;
@@ -18,6 +21,10 @@
 
         public List(int capacity)
         {
+            if (capacity < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity));
+            }
             this.items = new T[capacity];
         }
 
@@ -60,7 +67,7 @@
         {
             foreach (var t in this.items)
             {
-                if (t == item)
+                if (t.Equals(item))
                 {
                     return true;
                 }
@@ -72,7 +79,18 @@
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            var elementIndex = -1;
+
+            for (int i = 0; i < this.items.Length; i++)
+            {
+                if (this.items[i].Equals(item))
+                {
+                    elementIndex = i;
+                    return elementIndex;
+                }
+            }
+
+            return elementIndex;
         }
 
         public void Insert(int index, T item)
@@ -82,25 +100,47 @@
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            int indexToRemove = 0;
+            var isPresented = false;
+
+            for (int i = 0; i < this.items.Length; i++)
+            {
+                var currentElement = this.items[i];
+                if (currentElement.Equals(item))
+                {
+                    indexToRemove = i;
+                    isPresented = true;
+                }
+            }
+
+            if (isPresented)
+            {
+                this.items = this.items.Where((source, index) => index != indexToRemove).ToArray();
+            }
+
+            return false;
         }
 
         public void RemoveAt(int index)
         {
-            if (index > this.items.Length)
+            if (index > this.items.Length - 1)
             {
                 throw new IndexOutOfRangeException("Index out of range!");
             }
 
             T[] newArray = new T[this.items.Length];
 
+            var newArrIndex = 0;
+
             for (int i = 0; i < this.items.Length; i++)
             {
                 if (i == index)
                 {
-                    co
+                    continue;
+                    ;
                 }
-                newArray[i] = this.items[i];
+                newArray[newArrIndex] = this.items[i];
+                newArrIndex++;
             }
         }
 
