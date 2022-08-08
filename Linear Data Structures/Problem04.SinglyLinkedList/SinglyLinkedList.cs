@@ -9,10 +9,9 @@
         private Node<T> head;
         private Node<T> tail;
 
-        public SinglyLinkedList()
-        {
-            
-        }
+       
+
+
         public Node<T> Head { get; set; }
         public Node<T> Tail { get; set; }
         public int Count { get; private set; }
@@ -21,12 +20,30 @@
         {
             Node<T> newHead = new Node<T>(item);
             newHead.Next = this.Head;
+
+            if (this.Head == null)
+            {
+                this.Tail = newHead;
+            }
             this.Head = newHead;
         }
 
         public void AddLast(T item)
         {
-            throw new NotImplementedException();
+            Node<T> newTail = new Node<T>(item);
+
+            if (this.Tail == null)
+            {
+                this.Tail = newTail;
+                this.Head = newTail;
+            }
+            else
+            {
+                this.Tail.Next = newTail;
+                this.Tail = newTail;
+            }
+
+           
         }
 
         public T GetFirst()
@@ -43,6 +60,11 @@
         {
             var oldHead = this.Head;
             this.Head = oldHead.Next;
+
+            if (this.Head == null)
+            {
+                this.Tail = null;
+            }
 
             return oldHead.Value;
 

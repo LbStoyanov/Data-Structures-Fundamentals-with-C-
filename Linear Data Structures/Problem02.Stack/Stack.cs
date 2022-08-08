@@ -6,7 +6,7 @@
 
     public class Stack<T> : IAbstractStack<T>
     {
-        private Node<T> _top;
+        private Node<T> top;
 
         public int Count { get; private set; }
 
