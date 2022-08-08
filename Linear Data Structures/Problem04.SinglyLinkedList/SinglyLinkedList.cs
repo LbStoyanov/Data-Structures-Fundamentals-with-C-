@@ -6,13 +6,22 @@
 
     public class SinglyLinkedList<T> : IAbstractLinkedList<T>
     {
-        private Node<T> _head;
+        private Node<T> head;
+        private Node<T> tail;
 
+        public SinglyLinkedList()
+        {
+            
+        }
+        public Node<T> Head { get; set; }
+        public Node<T> Tail { get; set; }
         public int Count { get; private set; }
 
         public void AddFirst(T item)
         {
-            throw new NotImplementedException();
+            Node<T> newHead = new Node<T>(item);
+            newHead.Next = this.Head;
+            this.Head = newHead;
         }
 
         public void AddLast(T item)
