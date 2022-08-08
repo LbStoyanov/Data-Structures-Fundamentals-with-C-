@@ -31,22 +31,29 @@
 
         public T GetFirst()
         {
-            throw new NotImplementedException();
+            return this.Head.Value;
         }
 
         public T GetLast()
         {
-            throw new NotImplementedException();
+            return this.Tail.Value;
         }
 
         public T RemoveFirst()
         {
-            throw new NotImplementedException();
+            var oldHead = this.Head;
+            this.Head = oldHead.Next;
+
+            return oldHead.Value;
+
         }
 
         public T RemoveLast()
         {
-            throw new NotImplementedException();
+            var oldTail = this.Tail;
+            this.Tail = oldTail.Next;
+
+            return oldTail.Value;
         }
 
         public IEnumerator<T> GetEnumerator()
