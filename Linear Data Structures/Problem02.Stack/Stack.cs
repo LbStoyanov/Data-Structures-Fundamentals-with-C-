@@ -1,4 +1,6 @@
-﻿namespace Problem02.Stack
+﻿using Problem04.SinglyLinkedList;
+
+namespace Problem02.Stack
 {
     using System;
     using System.Collections;
@@ -7,8 +9,14 @@
     public class Stack<T> : IAbstractStack<T>
     {
         private Node<T> top;
+        private LinkedList<T> linkedList;
 
-        public int Count { get; private set; }
+        public Stack()
+        {
+            this.linkedList = new LinkedList<T>();
+        }
+
+        public int Count { get {return this.linkedList.Count;} }
 
         public bool Contains(T item)
         {
@@ -17,7 +25,7 @@
 
         public T Peek()
         {
-            throw new NotImplementedException();
+            return this.linkedList.First.Value;
         }
 
         public T Pop()
@@ -27,7 +35,7 @@
 
         public void Push(T item)
         {
-            throw new NotImplementedException();
+            this.linkedList.AddFirst(item);
         }
 
         public IEnumerator<T> GetEnumerator()

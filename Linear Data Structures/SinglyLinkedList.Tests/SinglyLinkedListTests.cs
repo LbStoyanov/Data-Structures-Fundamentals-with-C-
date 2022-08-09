@@ -13,7 +13,7 @@ namespace SinglyLinkedList.Tests
         [SetUp]
         public void InitializeLinkedList()
         {
-            this._list = new SinglyLinkedList<int>();
+            this._list = new LinkedList<int>();
         }
 
         [Test]

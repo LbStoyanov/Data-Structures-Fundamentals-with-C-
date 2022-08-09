@@ -6,14 +6,10 @@
 
     public class SinglyLinkedList<T> : IAbstractLinkedList<T>
     {
-        private Node<T> head;
-        private Node<T> tail;
-
-       
-
 
         public Node<T> Head { get; set; }
         public Node<T> Tail { get; set; }
+        
         public int Count { get; private set; }
 
         public void AddFirst(T item)
@@ -26,6 +22,8 @@
                 this.Tail = newHead;
             }
             this.Head = newHead;
+            
+            this.Count++;
         }
 
         public void AddLast(T item)
@@ -40,10 +38,12 @@
             else
             {
                 this.Tail.Next = newTail;
+                newTail.Previous = this.Tail;
                 this.Tail = newTail;
             }
 
-           
+            this.Count++;
+
         }
 
         public T GetFirst()
@@ -59,11 +59,16 @@
         public T RemoveFirst()
         {
             var oldHead = this.Head;
-            this.Head = oldHead.Next;
+            this.Head = this.Head.Next;
 
             if (this.Head == null)
             {
                 this.Tail = null;
+            }
+
+            if (this.Count > 0)
+            {
+                this.Count--;
             }
 
             return oldHead.Value;
@@ -73,7 +78,7 @@
         public T RemoveLast()
         {
             var oldTail = this.Tail;
-            this.Tail = oldTail.Next;
+            this.Tail = oldTail.Previous;
 
             return oldTail.Value;
         }

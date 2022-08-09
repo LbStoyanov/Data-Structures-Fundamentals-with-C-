@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Problem04.SinglyLinkedList\Problem04.SinglyLinkedList.csproj" />
+  </ItemGroup>
+
 </Project>
