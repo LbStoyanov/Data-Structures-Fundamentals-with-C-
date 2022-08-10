@@ -57,9 +57,9 @@ namespace Problem01.List
 
         public bool Contains(T item)
         {
-            foreach (var t in this.items)
+            foreach (var element in this.items.Take(this.Count)) //or we can use for i<this.Count
             {
-                if (t.Equals(item))
+                if (item.Equals(element))
                 {
                     return true;
                 }
@@ -75,7 +75,7 @@ namespace Problem01.List
 
             for (int i = 0; i < this.Count; i++)
             {
-                if (this.items[i].Equals(item))
+                if (item.Equals(this.items[i]))
                 {
                     elementIndex = i;
                     return elementIndex;
@@ -97,7 +97,7 @@ namespace Problem01.List
           }
 
           this.items[index] = item;
-          this.elements++;
+          this.Count++;
 
 
         }
@@ -165,7 +165,13 @@ namespace Problem01.List
         private T[] Grow()
         {
             var newArray = new T[this.items.Length * 2];
-            Array.Copy(this.items,newArray,this.items.Length);
+            //Array.Copy(this.items,newArray,this.Count);
+
+            for (int i = 0; i < this.items.Length; i++)
+            {
+                newArray[i] = this.items[i];
+            }
+
             return newArray;
         }
 
