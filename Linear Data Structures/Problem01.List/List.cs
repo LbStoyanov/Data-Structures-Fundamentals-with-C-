@@ -12,14 +12,14 @@ namespace Problem01.List
     {
         private const int DEFAULT_CAPACITY = 4; 
         private T[] items;
-        private int elements;
+        
 
 
         public List()
             : this(DEFAULT_CAPACITY) 
         {
             this.items = new T[DEFAULT_CAPACITY];
-            this.elements = 0;
+            
         }
 
         public List(int capacity)
@@ -29,7 +29,7 @@ namespace Problem01.List
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
             this.items = new T[capacity];
-            this.elements = 0;
+            
         }
 
         public T this[int index]
@@ -98,8 +98,7 @@ namespace Problem01.List
 
           this.items[index] = item;
           this.Count++;
-
-
+            
         }
 
         public bool Remove(T item)
@@ -130,13 +129,13 @@ namespace Problem01.List
         {
            this.ValidateIndex(index);
 
-           for (int i = 0; i < this.Count - 1; i++)
+           for (int i = index; i < this.Count - 1; i++)
            {
                 this.items[i] = this.items[i + 1];
            }
 
            this.items[this.Count - 1] = default;
-           this.elements--;
+           this.Count--;
 
         }
 
