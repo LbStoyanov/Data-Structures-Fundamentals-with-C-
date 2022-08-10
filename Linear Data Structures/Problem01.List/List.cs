@@ -46,15 +46,13 @@ namespace Problem01.List
             }
         }
 
-        public int Count => elements;
+        public int Count { get; private set; }
 
         public void Add(T item)
         {
-            
             this.GrowIfNecessary();
-            this.items[this.elements++] = item;
-           
-
+            this.items[this.Count] = item;
+            this.Count++;
         }
 
         public bool Contains(T item)
@@ -150,10 +148,11 @@ namespace Problem01.List
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() 
+            => this.GetEnumerator();
+
+
+
 
         private void ValidateIndex(int index)
         {
@@ -165,7 +164,7 @@ namespace Problem01.List
 
         private T[] Grow()
         {
-            var newArray = new T[this.Count * 2];
+            var newArray = new T[this.items.Length * 2];
             Array.Copy(this.items,newArray,this.items.Length);
             return newArray;
         }
