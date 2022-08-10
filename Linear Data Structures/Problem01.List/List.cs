@@ -103,26 +103,17 @@ namespace Problem01.List
 
         public bool Remove(T item)
         {
-            int indexToRemove = 0;
-            var isPresented = false;
+            int indexToRemove = this.IndexOf(item);
 
-            for (int i = 0; i < this.items.Length; i++)
+
+            if (indexToRemove == -1)
             {
-                var currentElement = this.items[i];
-                if (currentElement.Equals(item))
-                {
-                    indexToRemove = i;
-                    isPresented = true;
-                }
+                return false;
             }
 
-            if (isPresented)
-            {
-                this.items = this.items.Where((source, index) => index != indexToRemove).ToArray();
-                return true;
-            }
+            this.RemoveAt(indexToRemove);
+            return true;
 
-            return false;
         }
 
         public void RemoveAt(int index)
