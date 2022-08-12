@@ -1,4 +1,6 @@
-﻿using Problem04.SinglyLinkedList;
+﻿using System.Linq;
+using System.Xml;
+using Problem04.SinglyLinkedList;
 
 namespace Problem02.Stack
 {
@@ -9,60 +11,97 @@ namespace Problem02.Stack
     public class Stack<T> : IAbstractStack<T>
     {
 
-        public class Node
+        private class Node
         {
-            private T head;
-            private T tail;
-
-            public Node(T value)
+            public Node(T element, Node next)
             {
-                this.Element = value;
+                this.Element = element;
+                this.Next = next;
             }
-
+            
+            
             public T Element { get; set; }
 
-            public Node<T> Next { get; set; }
+            public Node Next { get; set; }
 
         }
 
-        private Node<T> top;
-        private LinkedList<T> linkedList;
+        private Node top;
 
-        public Stack()
-        {
-            this.linkedList = new LinkedList<T>();
-        }
-
-        public int Count { get {return this.linkedList.Count;} }
+        public int Count { get; private set; }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            var node = this.top;
+            var list = new List<T>();
+            bool isExist = false;
+
+            while (node != null)
+            {
+                list.Add(node.Element);
+                if (node.Element.Equals(item))
+                {
+                    isExist = true;
+                }
+                node = node.Next;
+            }
+
+            this.Count = 0;
+
+            list.Reverse();
+
+            foreach (var element in list)
+            {
+                this.Push(element);
+            }
+
+            return isExist;
+
         }
 
         public T Peek()
         {
-            return this.linkedList.First.Value;
+            if (this.top == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return this.top.Element;
         }
 
         public T Pop()
         {
-            throw new NotImplementedException();
+            if (this.top == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var oldTop = this.top;
+            this.top = oldTop.Next;
+            this.Count--;
+            return oldTop.Element;
         }
 
         public void Push(T item)
         {
-            this.linkedList.AddFirst(item);
+            var node = new Node(item, this.top);
+            this.top = node;
+            this.Count++;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var node = this.top;
+
+            while (node != null)
+            {
+                yield return node.Element;
+                node = node.Next;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
             
     }
