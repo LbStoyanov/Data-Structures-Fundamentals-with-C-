@@ -6,7 +6,7 @@
 
     public class SinglyLinkedList<T> : IAbstractLinkedList<T>
     {
-
+        
         public Node<T> Head { get; set; }
         public Node<T> Tail { get; set; }
         
@@ -39,12 +39,15 @@
             {
                 this.Tail = newTail;
                 this.Head = newTail;
+                
             }
             else
             {
                 this.Tail.Next = newTail;
+
                 newTail.Previous = this.Tail;
                 this.Tail = newTail;
+                
             }
 
             this.Count++;
@@ -53,39 +56,47 @@
 
         public T GetFirst()
         {
+            if (this.Head == null)
+            {
+                throw new InvalidOperationException();
+            }
             return this.Head.Element;
         }
 
         public T GetLast()
         {
+            if (this.Tail==null)
+            {
+                throw new InvalidOperationException();
+            }
             return this.Tail.Element;
         }
 
         public T RemoveFirst()
         {
-            var oldHead = this.Head;
-            this.Head = this.Head.Next;
-
             if (this.Head == null)
             {
-                this.Tail = null;
+                throw new InvalidOperationException();
             }
 
-            if (this.Count > 0)
-            {
-                this.Count--;
-            }
-
+            var oldHead = this.Head;
+            this.Head = oldHead.Next;
+            this.Count--;
             return oldHead.Element;
-
         }
 
         public T RemoveLast()
         {
+            if (this.Tail == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             var oldTail = this.Tail;
             this.Tail = oldTail.Previous;
-
+            this.Count--;
             return oldTail.Element;
+
         }
 
         public IEnumerator<T> GetEnumerator()
