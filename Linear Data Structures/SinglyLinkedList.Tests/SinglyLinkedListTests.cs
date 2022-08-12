@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SinglyLinkedList.Tests
 {
     using System;
@@ -13,7 +15,7 @@ namespace SinglyLinkedList.Tests
         [SetUp]
         public void InitializeLinkedList()
         {
-            this._list = new LinkedList<int>();
+            this._list = new SinglyLinkedList<int>();
         }
 
         [Test]

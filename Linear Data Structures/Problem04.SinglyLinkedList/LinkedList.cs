@@ -15,13 +15,18 @@
         public void AddFirst(T item)
         {
             Node<T> newHead = new Node<T>(item);
-            newHead.Next = this.Head;
 
             if (this.Head == null)
             {
+                this.Head = newHead;
                 this.Tail = newHead;
             }
-            this.Head = newHead;
+            else
+            {
+                newHead.Next = this.Head;
+                this.Head = newHead;
+            }
+            
             
             this.Count++;
         }
@@ -48,12 +53,12 @@
 
         public T GetFirst()
         {
-            return this.Head.Value;
+            return this.Head.Element;
         }
 
         public T GetLast()
         {
-            return this.Tail.Value;
+            return this.Tail.Element;
         }
 
         public T RemoveFirst()
@@ -71,7 +76,7 @@
                 this.Count--;
             }
 
-            return oldHead.Value;
+            return oldHead.Element;
 
         }
 
@@ -80,12 +85,18 @@
             var oldTail = this.Tail;
             this.Tail = oldTail.Previous;
 
-            return oldTail.Value;
+            return oldTail.Element;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var head = this.Head;
+
+            while (head.Next != null)
+            {
+                yield return head.Element;
+                head = head.Next;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

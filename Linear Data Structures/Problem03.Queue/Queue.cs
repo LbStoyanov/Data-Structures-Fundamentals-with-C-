@@ -7,7 +7,7 @@
     public class Queue<T> : IAbstractQueue<T>
     {
         private Node<T> head;
-        private Node<T> tail;
+        
 
         public int Count { get; private set; }
 
@@ -62,7 +62,7 @@
             if (this.head == null)
             {
                 this.head = newNode;
-                this.tail = newNode;
+               
             }
             else
             {
@@ -75,7 +75,7 @@
 
                 node.Next = newNode;
                
-                this.tail = newNode;
+             
             }
 
             this.Count++;

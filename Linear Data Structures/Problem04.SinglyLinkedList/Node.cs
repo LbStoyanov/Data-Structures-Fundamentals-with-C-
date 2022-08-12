@@ -3,12 +3,12 @@
     public class Node<T>
     {
 
-        public Node(T value)
+        public Node(T element)
         {
-            this.Value = value;
+            this.Element = element;
         }
 
-        public T Value { get; set; }
+        public T Element { get; set; }
 
         public Node<T> Next { get; set; }
 
