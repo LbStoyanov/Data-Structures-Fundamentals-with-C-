@@ -7,18 +7,51 @@
     public class Queue<T> : IAbstractQueue<T>
     {
         private Node<T> head;
-        //private Node<T> tail;
+        private Node<T> tail;
 
         public int Count { get; private set; }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            var node = this.head;
+            var list = new List<T>();
+            bool isExist = false;
+
+            while (node != null)
+            {
+                list.Add(node.Element);
+                if (node.Element.Equals(item))
+                {
+                    isExist = true;
+                }
+                node = node.Next;
+            }
+
+            this.Count = 0;
+
+            list.Reverse();
+
+            foreach (var element in list)
+            {
+                this.Enqueue(element);
+            }
+
+            return isExist;
+
         }
 
         public T Dequeue()
         {
-            throw new NotImplementedException();
+            if (this.head == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var oldHead = this.head;
+            this.head = oldHead.Next;
+
+            this.Count--;
+            return oldHead.Element;
         }
 
         public void Enqueue(T item)
@@ -28,6 +61,7 @@
             if (this.head == null)
             {
                 this.head = newNode;
+                this.tail = this.head;
             }
             else
             {
@@ -39,6 +73,7 @@
                 }
 
                 node!.Next = newNode;
+                this.tail = node.Next;
             }
 
             this.Count++;
@@ -46,7 +81,11 @@
 
         public T Peek()
         {
-            throw new NotImplementedException();
+            if (this.head == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return this.tail.Element;
         }
 
         public IEnumerator<T> GetEnumerator()
