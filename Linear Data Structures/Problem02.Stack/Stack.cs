@@ -8,6 +8,23 @@ namespace Problem02.Stack
 
     public class Stack<T> : IAbstractStack<T>
     {
+
+        public class Node
+        {
+            private T head;
+            private T tail;
+
+            public Node(T value)
+            {
+                this.Element = value;
+            }
+
+            public T Element { get; set; }
+
+            public Node<T> Next { get; set; }
+
+        }
+
         private Node<T> top;
         private LinkedList<T> linkedList;
 

@@ -8,10 +8,10 @@
 
         public Node(T value)
         {
-            this.Value = value;
+            this.Element = value;
         }
 
-        public T Value { get; set; }
+        public T Element { get; set; }
 
         public Node<T> Next { get; set; }
         
