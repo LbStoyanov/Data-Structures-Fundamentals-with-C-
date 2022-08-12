@@ -2,6 +2,20 @@
 {
     public class Node<T>
     {
-        // TODO: Implement
+        public Node(T element)
+        {
+            this.Element = element;
+        }
+        public Node(T element, Node<T> next)
+        {
+            this.Element = element;
+            this.Next = next;
+        }
+
+
+        public T Element { get; set; }
+
+        public Node<T> Next { get; set; }
+
     }
 }
