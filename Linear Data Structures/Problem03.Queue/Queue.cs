@@ -57,23 +57,25 @@
         public void Enqueue(T item)
         {
             var newNode = new Node<T>(item);
+            
 
             if (this.head == null)
             {
                 this.head = newNode;
-                this.tail = this.head;
+                this.tail = newNode;
             }
             else
             {
                 var node = this.head;
 
-                while (node != null)
+                while (node.Next != null)
                 {
                     node = node.Next;
                 }
 
-                node!.Next = newNode;
-                this.tail = node.Next;
+                node.Next = newNode;
+               
+                this.tail = newNode;
             }
 
             this.Count++;
@@ -85,7 +87,7 @@
             {
                 throw new InvalidOperationException();
             }
-            return this.tail.Element;
+            return this.head.Element;
         }
 
         public IEnumerator<T> GetEnumerator()
