@@ -65,11 +65,12 @@
 
         public T GetLast()
         {
-            if (this.Tail==null)
+            if (this.Head == null)
             {
                 throw new InvalidOperationException();
             }
             return this.Tail.Element;
+            
         }
 
         public T RemoveFirst()
